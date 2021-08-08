@@ -10,6 +10,10 @@ import timber.log.Timber
  */
 class NewsApplication : Application() {
 
+    val appComponent: AppComponent by lazy {
+        DaggerAppComponent.factory().create(applicationContext)
+    }
+
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
