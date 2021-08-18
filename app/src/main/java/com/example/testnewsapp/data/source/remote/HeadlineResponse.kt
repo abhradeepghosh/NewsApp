@@ -26,3 +26,11 @@ data class Source(
     val id: String = "",
     val name: String = ""
 )
+
+data class ArticleLikes (
+    val likes: Int = 0
+)
+
+data class ArticleComments (
+    val comments: Int = 0
+)

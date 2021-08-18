@@ -25,7 +25,7 @@ class HeadlinesAdapter(private val viewModel: HeadlinesViewModel) :
     }
 
 
-    class ViewHolder private constructor(val binding: HeadlineItemLayoutBinding) :
+    class ViewHolder private constructor(private val binding: HeadlineItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(viewModel: HeadlinesViewModel, item: Article) {

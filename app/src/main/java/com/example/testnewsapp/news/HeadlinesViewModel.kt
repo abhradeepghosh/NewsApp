@@ -7,7 +7,9 @@ import com.example.testnewsapp.data.NewsRepository
 import com.example.testnewsapp.data.Result
 import com.example.testnewsapp.util.Event
 import com.example.testnewsapp.util.Format
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import javax.inject.Inject
 
 /**
@@ -19,7 +21,6 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
 
     private val isDataLoadingError = MutableLiveData<Boolean>()
 
-
     private val _items: LiveData<List<Article>> = _forceUpdate.switchMap { forceUpdate ->
         if (forceUpdate) {
             _dataLoading.value = true
@@ -28,9 +29,11 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
                 _dataLoading.value = false
             }
         }
+
         repository.observeArticles().switchMap {
             transformArticles(it)
         }
+
     }
 
     val items: LiveData<List<Article>> = _items

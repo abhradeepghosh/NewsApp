@@ -1,9 +1,7 @@
 package com.example.testnewsapp.data.source
 
 import androidx.lifecycle.LiveData
-import com.example.testnewsapp.data.Article
-import com.example.testnewsapp.data.NewsRepository
-import com.example.testnewsapp.data.Result
+import com.example.testnewsapp.data.*
 import com.example.testnewsapp.data.source.local.NewsLocalDataSource
 import com.example.testnewsapp.data.source.remote.HeadlineResponse
 import com.example.testnewsapp.data.source.remote.NewsRemoteDataSource
@@ -27,6 +25,22 @@ class DefaultNewsRepository @Inject constructor(
     override suspend fun refreshArticles() {
         try {
             updateArticlesFromRemoteDataSource()
+        } catch (ex: Exception) {
+            Timber.e(ex)
+        }
+    }
+
+    override suspend fun getComments(article: Result<Article>) {
+        try {
+            updateArticlesCommentsFromRemoteDataSource(article)
+        } catch (ex: Exception) {
+            Timber.e(ex)
+        }
+    }
+
+    override suspend fun getLikes(article: Result<Article>) {
+        try {
+            updateArticlesLikesFromRemoteDataSource(article)
         } catch (ex: Exception) {
             Timber.e(ex)
         }
@@ -69,6 +83,53 @@ class DefaultNewsRepository @Inject constructor(
 
     }
 
+
+    private suspend fun updateArticlesCommentsFromRemoteDataSource(taskResult: Result<Article>) = withContext(ioDispatcher){
+        if(taskResult is Result.Success) {
+            taskResult.data?.let {
+                val numberOfComments = remoteDataSource.getNumberOfComments(
+                    taskResult.data.url.substring (8).replace("/", "-")
+                )
+
+                when {
+                    numberOfComments.body() != null -> {
+                        numberOfComments.body()?.let{ numberOfComments ->
+                            val comments : Comments = Comments.convertRemoteCommentsToLocalComments(numberOfComments.comments, taskResult.data.id)
+                            localDataSource.clearAndCacheComments(comments)
+                        }
+                    }
+                    else -> {
+                        throw Exception("no response")
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun updateArticlesLikesFromRemoteDataSource(taskResult: Result<Article>) = withContext(ioDispatcher){
+        if(taskResult is Result.Success) {
+
+            taskResult.data?.let {
+
+                val numberOfLikes = remoteDataSource.getNumberOfLikes(
+                    taskResult.data.url.substring(8).replace("/", "-")
+                )
+
+                when {
+                    numberOfLikes.body() != null -> {
+                        numberOfLikes.body()?.let { numberOfLikes ->
+                            var likes: Likes = Likes.convertRemoteLikesToLocalLikes(numberOfLikes.likes, taskResult.data.id)
+                            localDataSource.clearAndCacheLikes(likes)
+                        }
+                    }
+                    else -> {
+                        throw Exception("no response")
+                    }
+                }
+            }
+        }
+    }
+
     override suspend fun getArticle(articleId: Int): Result<Article> {
         return localDataSource.getArticle(articleId)
     }
@@ -79,6 +140,14 @@ class DefaultNewsRepository @Inject constructor(
 
     override fun observeArticle(articleId: Int): LiveData<Result<Article>> {
         return localDataSource.observeArticle(articleId)
+    }
+
+    override fun observeArticleNumberOfComments(articleId: Int?): LiveData<Result<Comments>> {
+        return localDataSource.observeArticleNumberOfComments(articleId)
+    }
+
+    override fun observeArticleNumberOfLikes(articleId: Int?): LiveData<Result<Likes>>{
+        return localDataSource.observeArticleNumberOfLikes(articleId)
     }
 
     override suspend fun insertArticles(articles: List<Article>): Result<List<Long>> {

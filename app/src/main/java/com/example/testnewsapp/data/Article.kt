@@ -33,7 +33,7 @@ data class Article @JvmOverloads constructor(
     val publishedAt: String = "",
 
     @ColumnInfo(name = "source")
-    val source: String = ""
+    val source: String = "",
 ) {
 
     companion object {
