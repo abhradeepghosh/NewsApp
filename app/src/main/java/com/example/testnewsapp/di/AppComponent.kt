@@ -10,12 +10,13 @@ import javax.inject.Singleton
 /**
  * @author Abhradeep Ghosh
  */
+
 @Singleton
 @Component(modules = [AppModule::class, SourceModule::class])
-interface AppComponent{
+interface AppComponent {
 
     @Component.Factory
-    interface Factory{
+    interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
 

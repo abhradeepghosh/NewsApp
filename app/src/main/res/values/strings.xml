@@ -4,4 +4,6 @@
     <string name="loading_article_error">Error while loading newsArticle</string>
     <string name="headlines">Headlines</string>
     <string name="space">" "</string>
+    <string name="article_image">Article Image</string>
+    <string name="back_button">Back Button</string>
 </resources>

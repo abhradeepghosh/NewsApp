@@ -3,6 +3,8 @@ package com.example.testnewsapp.source.local
 import androidx.lifecycle.LiveData
 import com.example.testnewsapp.data.source.local.NewsLocalDataSource
 import com.example.testnewsapp.data.Article
+import com.example.testnewsapp.data.Comments
+import com.example.testnewsapp.data.Likes
 import com.example.testnewsapp.data.Result
 
 /**
@@ -24,11 +26,27 @@ class FakeNewsLocalDataSource(val articles: MutableList<Article>? = mutableListO
         return Result.Error("Pupil not found")
     }
 
+    override suspend fun getArticleNumberOfComments(): LiveData<Result<Comments>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getArticleNumberOfLikes(): LiveData<Result<List<Likes>>> {
+        TODO("Not yet implemented")
+    }
+
     override fun observeArticles(): LiveData<Result<List<Article>>> {
         TODO("Not yet implemented")
     }
 
     override fun observeArticle(articleId: Int): LiveData<Result<Article>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun observeArticleNumberOfComments(articleId: Int?): LiveData<Result<Comments>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun observeArticleNumberOfLikes(articleId: Int?): LiveData<Result<Likes>> {
         TODO("Not yet implemented")
     }
 
@@ -45,6 +63,14 @@ class FakeNewsLocalDataSource(val articles: MutableList<Article>? = mutableListO
             it.addAll(articles)
         }
 
+    }
+
+    override suspend fun clearAndCacheLikes(likes: Likes) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun clearAndCacheComments(comments: Comments) {
+        TODO("Not yet implemented")
     }
 
 }

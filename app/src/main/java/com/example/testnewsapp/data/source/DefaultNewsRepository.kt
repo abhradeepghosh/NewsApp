@@ -3,7 +3,6 @@ package com.example.testnewsapp.data.source
 import androidx.lifecycle.LiveData
 import com.example.testnewsapp.data.*
 import com.example.testnewsapp.data.source.local.NewsLocalDataSource
-import com.example.testnewsapp.data.source.remote.HeadlineResponse
 import com.example.testnewsapp.data.source.remote.NewsRemoteDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -16,12 +15,16 @@ import javax.inject.Inject
 /**
  * @author Abhradeep Ghosh
  */
+
 class DefaultNewsRepository @Inject constructor(
     private val localDataSource: NewsLocalDataSource,
     private val remoteDataSource: NewsRemoteDataSource,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : NewsRepository {
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : NewsRepository {
 
-
+    /**
+     * fetch top headlines ( articles ) from remote source - api
+     */
     override suspend fun refreshArticles() {
         try {
             updateArticlesFromRemoteDataSource()
@@ -30,6 +33,9 @@ class DefaultNewsRepository @Inject constructor(
         }
     }
 
+    /**
+     * fetch comments from remote source - api
+     */
     override suspend fun getComments(article: Result<Article>) {
         try {
             updateArticlesCommentsFromRemoteDataSource(article)
@@ -38,6 +44,9 @@ class DefaultNewsRepository @Inject constructor(
         }
     }
 
+    /**
+     * fetch likes from remote source - api
+     */
     override suspend fun getLikes(article: Result<Article>) {
         try {
             updateArticlesLikesFromRemoteDataSource(article)
@@ -46,6 +55,11 @@ class DefaultNewsRepository @Inject constructor(
         }
     }
 
+    /**
+     * fetch top headlines ( articles ) from remote data source and store in local database
+     *
+     * @return top headlines ( articles ) from local data source - db
+     */
     override suspend fun getArticles(forceUpdate: Boolean): Result<List<Article>> {
         if (forceUpdate) {
             try {
@@ -57,7 +71,10 @@ class DefaultNewsRepository @Inject constructor(
         return localDataSource.getArticles()
     }
 
-    private suspend fun updateArticlesFromRemoteDataSource()  = withContext(ioDispatcher){
+    /**
+     * Actual implementation of fetching top headlines ( articles ) from api and storing in local database
+     */
+    private suspend fun updateArticlesFromRemoteDataSource() = withContext(ioDispatcher) {
         try {
             val apiResponse = remoteDataSource.getTopHeadlines()
 
@@ -65,7 +82,7 @@ class DefaultNewsRepository @Inject constructor(
                 apiResponse.isSuccessful && apiResponse.body() != null -> {
                     apiResponse.body()?.let {
                         val articles: List<Article> =
-                            (it as HeadlineResponse).articles.map { article ->
+                            it.articles.map { article ->
                                 Article.convertRemoteArticleToLocalArticle(article)
                             }
                         localDataSource.clearAndCacheArticles(articles)
@@ -75,26 +92,30 @@ class DefaultNewsRepository @Inject constructor(
                     throw Exception("no response")
                 }
             }
-        }catch (e: HttpException) {
+        } catch (e: HttpException) {
             throw e
-        }catch (e: IOException) {
+        } catch (e: IOException) {
             throw e
         }
 
     }
 
-
-    private suspend fun updateArticlesCommentsFromRemoteDataSource(taskResult: Result<Article>) = withContext(ioDispatcher){
-        if(taskResult is Result.Success) {
-            taskResult.data?.let {
+    /**
+     * Actual implementation of fetching top comments from api and storing in local database
+     */
+    private suspend fun updateArticlesCommentsFromRemoteDataSource(taskResult: Result<Article>) =
+        withContext(ioDispatcher) {
+            if (taskResult is Result.Success) {
                 val numberOfComments = remoteDataSource.getNumberOfComments(
-                    taskResult.data.url.substring (8).replace("/", "-")
+                    taskResult.data.url.substring(8).replace("/", "-")
                 )
-
                 when {
                     numberOfComments.body() != null -> {
-                        numberOfComments.body()?.let{ numberOfComments ->
-                            val comments : Comments = Comments.convertRemoteCommentsToLocalComments(numberOfComments.comments, taskResult.data.id)
+                        numberOfComments.body()?.let { commentsNumber ->
+                            val comments: Comments = Comments.convertRemoteCommentsToLocalComments(
+                                commentsNumber.comments,
+                                taskResult.data.id
+                            )
                             localDataSource.clearAndCacheComments(comments)
                         }
                     }
@@ -104,21 +125,23 @@ class DefaultNewsRepository @Inject constructor(
                 }
             }
         }
-    }
 
-    private suspend fun updateArticlesLikesFromRemoteDataSource(taskResult: Result<Article>) = withContext(ioDispatcher){
-        if(taskResult is Result.Success) {
-
-            taskResult.data?.let {
-
+    /**
+     * Actual implementation of fetching likes from api and storing in local database
+     */
+    private suspend fun updateArticlesLikesFromRemoteDataSource(taskResult: Result<Article>) =
+        withContext(ioDispatcher) {
+            if (taskResult is Result.Success) {
                 val numberOfLikes = remoteDataSource.getNumberOfLikes(
                     taskResult.data.url.substring(8).replace("/", "-")
                 )
-
                 when {
                     numberOfLikes.body() != null -> {
-                        numberOfLikes.body()?.let { numberOfLikes ->
-                            var likes: Likes = Likes.convertRemoteLikesToLocalLikes(numberOfLikes.likes, taskResult.data.id)
+                        numberOfLikes.body()?.let { likesNumber ->
+                            val likes: Likes = Likes.convertRemoteLikesToLocalLikes(
+                                likesNumber.likes,
+                                taskResult.data.id
+                            )
                             localDataSource.clearAndCacheLikes(likes)
                         }
                     }
@@ -128,33 +151,49 @@ class DefaultNewsRepository @Inject constructor(
                 }
             }
         }
-    }
 
+    /**
+     * Fetch the article from local data source.
+     *
+     * @return one article
+     */
     override suspend fun getArticle(articleId: Int): Result<Article> {
         return localDataSource.getArticle(articleId)
     }
 
+    /**
+     * observe the data changes for the list of top headlines ( article ) from local data source.
+     *
+     * @return list of top headlines ( article )
+     */
     override fun observeArticles(): LiveData<Result<List<Article>>> {
         return localDataSource.observeArticles()
     }
 
+    /**
+     * observe the data changes for the article from local data source.
+     *
+     * @return one article
+     */
     override fun observeArticle(articleId: Int): LiveData<Result<Article>> {
         return localDataSource.observeArticle(articleId)
     }
 
+    /**
+     * observe the data changes for the number of comments for a particular article from local data source.
+     *
+     * @return result consisting of number of comments
+     */
     override fun observeArticleNumberOfComments(articleId: Int?): LiveData<Result<Comments>> {
         return localDataSource.observeArticleNumberOfComments(articleId)
     }
 
-    override fun observeArticleNumberOfLikes(articleId: Int?): LiveData<Result<Likes>>{
+    /**
+     * observe the data changes for the number of likes for a particular article from local data source.
+     *
+     * @return result consisting of number of likes
+     */
+    override fun observeArticleNumberOfLikes(articleId: Int?): LiveData<Result<Likes>> {
         return localDataSource.observeArticleNumberOfLikes(articleId)
-    }
-
-    override suspend fun insertArticles(articles: List<Article>): Result<List<Long>> {
-        return localDataSource.insertArticles(articles)
-    }
-
-    override suspend fun clearAndCacheArticles(articles: List<Article>) {
-        return localDataSource.clearAndCacheArticles(articles)
     }
 }

@@ -12,9 +12,9 @@ import com.example.testnewsapp.data.Likes
 /**
  * @author Abhradeep Ghosh
  */
+
 @Dao
 interface NewsDao {
-
 
     /**
      * Select all articles from the article table.
@@ -35,10 +35,10 @@ interface NewsDao {
     suspend fun getArticleById(articleId: Int): Article?
 
     /**
-    * Select comments from the article table.
-    *
-    * @return number of comments.
-    */
+     * Select comments from the article table.
+     *
+     * @return number of comments.
+     */
     @Query("SELECT * FROM Comments")
     fun getArticleNumberOfComments(): LiveData<Comments>
 
@@ -48,7 +48,7 @@ interface NewsDao {
      * @return number of likes.
      */
     @Query("SELECT * FROM Likes")
-     fun getArticleNumberOfLikes(): LiveData<List<Likes>>
+    fun getArticleNumberOfLikes(): LiveData<List<Likes>>
 
 
     /**
@@ -118,24 +118,32 @@ interface NewsDao {
     @Query("DELETE FROM Likes")
     suspend fun deleteLikes()
 
-
     /**
      * Delete all Comments.
      */
     @Query("DELETE FROM Comments")
     suspend fun deleteComments()
 
+    /**
+     * Delete all articles and insert new articles.
+     */
     @Transaction
     suspend fun clearAndCacheArticles(articles: List<Article>) {
         deleteArticles()
         insertArticles(articles)
     }
 
+    /**
+     * Delete all likes and insert new likes.
+     */
     @Transaction
     suspend fun clearAndCacheLikes(likes: Likes) {
         insertLikes(likes)
     }
 
+    /**
+     * Delete all comments and insert new comments.
+     */
     @Transaction
     suspend fun clearAndCacheComments(comments: Comments) {
         insertComments(comments)

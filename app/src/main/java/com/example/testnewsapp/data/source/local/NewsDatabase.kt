@@ -9,8 +9,12 @@ import com.example.testnewsapp.data.Likes
 /**
  * @author Abhradeep Ghosh
  */
-@Database(entities = [Article::class, Comments::class, Likes::class], version = 1, exportSchema = false)
-abstract class NewsDatabase : RoomDatabase(){
+@Database(
+    entities = [Article::class, Comments::class, Likes::class],
+    version = 1,
+    exportSchema = false
+)
+abstract class NewsDatabase : RoomDatabase() {
 
     abstract fun newsDao(): NewsDao
 

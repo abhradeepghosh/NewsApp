@@ -7,20 +7,26 @@ import com.example.testnewsapp.data.NewsRepository
 import com.example.testnewsapp.data.Result
 import com.example.testnewsapp.util.Event
 import com.example.testnewsapp.util.Format
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import javax.inject.Inject
 
 /**
  * @author Abhradeep Ghosh
  */
+
 class HeadlinesViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
 
     private val _forceUpdate = MutableLiveData<Boolean>(false)
 
     private val isDataLoadingError = MutableLiveData<Boolean>()
 
+    /**
+     * Fetch the list of top headlines ( articles ) from remote data source
+     * and observe data changes ( articles ) from local data source and the
+     * result is transformed into a liveData of list of articles
+     *
+     * @return LiveData of list of articles
+     */
     private val _items: LiveData<List<Article>> = _forceUpdate.switchMap { forceUpdate ->
         if (forceUpdate) {
             _dataLoading.value = true
@@ -50,6 +56,9 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
     private val _openArticleEvent = MutableLiveData<Event<Int>>()
     val openArticleEvent: LiveData<Event<Int>> = _openArticleEvent
 
+    /**
+     * Display the snackbar message
+     */
     private fun showSnackbarMessage(message: Int) {
         _snackbarText.value = Event(message)
     }
@@ -61,13 +70,21 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
         _openArticleEvent.value = Event(articleId)
     }
 
-    private fun transformArticles(headlineResult: Result<List<Article>>) : LiveData<List<Article>>{
+    /**
+     * Transform the result of list of articles into LiveData of list of articles
+     *
+     * @return LiveData of list of articles
+     */
+    private fun transformArticles(headlineResult: Result<List<Article>>): LiveData<List<Article>> {
         val result = MutableLiveData<List<Article>>()
 
-        if (headlineResult is Result.Success<*>) {
+        if (headlineResult is Result.Success) {
             isDataLoadingError.value = false
             viewModelScope.launch {
-                result.value = headlineResult.data as List<Article>?
+                headlineResult.data.let { articles ->
+                    result.value = articles
+                }
+
             }
         } else {
             result.value = emptyList()
@@ -78,6 +95,9 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
         return result
     }
 
+    /**
+     * To refresh the data on pull to refresh
+     */
     fun refresh() {
         _forceUpdate.value = true
     }
@@ -90,7 +110,7 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
     }
 
     // todo redundant : companion function not working with databinding in xml : need to find out solution
-    fun dateFormat(dateTime: String?): String{
+    fun dateFormat(dateTime: String?): String {
         return Format.dateFormatFromDateTime(dateTime)
     }
 

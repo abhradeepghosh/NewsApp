@@ -18,24 +18,24 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/_0dp"
+            android:layout_height="@dimen/_0dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:image="@{viewmodel.article.urlToImage}"
+            android:contentDescription="@string/article_image"
             android:foreground="@drawable/gradient_bg"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
 
         <TextView
             android:id="@+id/textView_description"
             style="@style/TextAppearance.Body1"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/margin_small"
             android:text="@{viewmodel.article.description}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -44,15 +44,15 @@
 
         <ImageButton
             android:id="@+id/imageButton_back"
-            android:layout_width="42dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="@dimen/_42dp"
+            android:layout_height="@dimen/_0dp"
+            android:layout_marginStart="@dimen/margin_regular"
+            android:layout_marginTop="@dimen/margin_regular"
             app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/round_button"
+            android:contentDescription="@string/back_button"
             android:onClick="@{()->viewmodel.back()}"
             app:srcCompat="@drawable/abc_vector_test" />
 
@@ -73,11 +73,10 @@
         <TextView
             android:id="@+id/textView_source"
             style="@style/TextAppearance.Subtitle"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_regular"
             android:text="@{viewmodel.article.source}"
             app:layout_constraintBottom_toTopOf="@+id/textView_likes"
             app:layout_constraintEnd_toStartOf="@+id/textView_published_at"
@@ -94,17 +93,17 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             tools:text="2020-06-05" />
 
-
         <TextView
             android:id="@+id/textView_likes"
             style="@style/TextAppearance.Body1"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_regular"
             android:text="@{(Integer.toString(viewmodel.likes.likes).concat(@string/space).concat(viewmodel.getNumberOfLikes(viewmodel.likes.likes)))}"
             app:layout_constraintBottom_toTopOf="@+id/textView_description"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:visibility="@{viewmodel.isLikesVisible}"
             tools:text="likes" />
 
         <TextView
@@ -115,14 +114,16 @@
             android:text="@{(Integer.toString(viewmodel.comments.comments).concat(@string/space).concat(viewmodel.getNumberOfComments(viewmodel.comments.comments)))}"
             app:layout_constraintBottom_toBottomOf="@+id/textView_likes"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
-            tools:text="comments" />
+            app:visibility="@{viewmodel.isCommentsVisible}"
+            tools:text="comments"
+            />
 
         <TextView
             android:id="@+id/textView_title"
             style="@style/TextAppearance.Bold.Headline"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="64dp"
+            android:layout_marginBottom="@dimen/_64dp"
             android:text="@{viewmodel.article.title}"
             app:layout_constraintBottom_toTopOf="@+id/textView_likes"
             app:layout_constraintEnd_toStartOf="@+id/guideline"

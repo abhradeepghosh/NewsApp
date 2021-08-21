@@ -38,16 +38,16 @@ data class Article @JvmOverloads constructor(
 
     companion object {
 
-        fun convertRemoteArticleToLocalArticle(newsArticle: NewsArticle): Article {
+        fun convertRemoteArticleToLocalArticle(newsArticle: NewsArticle?): Article {
 
             return Article(
-                author = newsArticle.author?:"",
-                title = newsArticle.title?:"",
-                description = newsArticle.description?:"",
-                url = newsArticle.url?:"",
-                urlToImage = newsArticle.urlToImage?:"",
-                publishedAt = newsArticle.publishedAt?:"",
-                source = newsArticle.source.name?:""
+                author = newsArticle?.author ?: "",
+                title = newsArticle?.title ?: "",
+                description = newsArticle?.description ?: "",
+                url = newsArticle?.url ?: "",
+                urlToImage = newsArticle?.urlToImage ?: "",
+                publishedAt = newsArticle?.publishedAt ?: "",
+                source = newsArticle?.source?.name ?: ""
             )
         }
     }

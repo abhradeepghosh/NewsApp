@@ -16,6 +16,10 @@
 package com.example.testnewsapp.util
 
 /**
+ * @author Abhradeep Ghosh
+ */
+
+/**
  * Extension functions and Binding Adapters.
  */
 
@@ -53,6 +57,9 @@ fun View.setupSnackbar(
     })
 }
 
+/**
+ * Setup refresh layout.
+ */
 fun Fragment.setupRefreshLayout(
     refreshLayout: ScrollChildSwipeRefreshLayout,
     scrollUpChild: View? = null

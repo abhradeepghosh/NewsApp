@@ -8,6 +8,7 @@ import timber.log.Timber
 /**
  * @author Abhradeep Ghosh
  */
+
 class NewsApplication : Application() {
 
     val appComponent: AppComponent by lazy {

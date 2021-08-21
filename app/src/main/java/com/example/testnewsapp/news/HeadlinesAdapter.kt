@@ -11,6 +11,7 @@ import com.example.testnewsapp.databinding.HeadlineItemLayoutBinding
 /**
  * @author Abhradeep Ghosh
  */
+
 class HeadlinesAdapter(private val viewModel: HeadlinesViewModel) :
     ListAdapter<Article, HeadlinesAdapter.ViewHolder>(ArticlesDiffCallback()) {
 

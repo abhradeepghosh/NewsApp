@@ -12,6 +12,7 @@ import dagger.Module
 /**
  * @author Abhradeep Ghosh
  */
+
 @Module
 abstract class SourceModule {
 
@@ -23,6 +24,5 @@ abstract class SourceModule {
 
     @Binds
     abstract fun provideNewsRepository(pupilRepository: DefaultNewsRepository): NewsRepository
-
 
 }

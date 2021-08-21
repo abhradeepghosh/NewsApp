@@ -21,23 +21,24 @@ private const val BASE_URL = "https://newsapi.org/v2/"
 /**
  * @author Abhradeep Ghosh
  */
+
 @Module
 class AppModule {
 
     @Singleton
     @Provides
-    fun providePupilApi() : NewsApi {
+    fun providePupilApi(): NewsApi {
         val builder = OkHttpClient.Builder()
         builder.readTimeout(API_TIMEOUT, TimeUnit.SECONDS)
         builder.writeTimeout(API_TIMEOUT, TimeUnit.SECONDS)
         builder.connectTimeout(API_TIMEOUT, TimeUnit.SECONDS)
 
         return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(builder.build())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(NewsApi::class.java)
+            .baseUrl(BASE_URL)
+            .client(builder.build())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(NewsApi::class.java)
     }
 
     @Singleton
@@ -57,7 +58,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideDispatcher(): CoroutineDispatcher{
+    fun provideDispatcher(): CoroutineDispatcher {
         return Dispatchers.IO
     }
 }

@@ -11,13 +11,24 @@ import javax.inject.Inject
 /**
  * @author Abhradeep Ghosh
  */
+
 class DefaultNewsLocalDataSource @Inject constructor(private val dao: NewsDao) :
     NewsLocalDataSource {
 
+    /**
+     * Fetch all articles from the local data source.
+     *
+     * @return list of article.
+     */
     override suspend fun getArticles(): Result<List<Article>> {
         return Result.Success(dao.getArticles())
     }
 
+    /**
+     * Fetch one article from the local data source.
+     *
+     * @return one article.
+     */
     override suspend fun getArticle(articleId: Int): Result<Article> {
         val article = dao.getArticleById(articleId)
         article?.let {
@@ -26,42 +37,86 @@ class DefaultNewsLocalDataSource @Inject constructor(private val dao: NewsDao) :
         return Result.Error("Article not found!")
     }
 
+    /**
+     * Fetch the number of comments from the local data source.
+     *
+     * @return number of comments.
+     */
     override suspend fun getArticleNumberOfComments(): LiveData<Result<Comments>> {
-        return dao.getArticleNumberOfComments().map {  Result.Success(it) }
+        return dao.getArticleNumberOfComments().map { Result.Success(it) }
     }
 
+    /**
+     * Fetch the number of likes from the local data source.
+     *
+     * @return number of likes.
+     */
     override suspend fun getArticleNumberOfLikes(): LiveData<Result<List<Likes>>> {
-        return dao.getArticleNumberOfLikes().map {  Result.Success(it) }
+        return dao.getArticleNumberOfLikes().map { Result.Success(it) }
     }
 
+    /**
+     * Observe the changes in the list of articles from local data sources.
+     *
+     * @return changes in the list of articles.
+     */
     override fun observeArticles(): LiveData<Result<List<Article>>> {
         return dao.observeArticles().map { Result.Success(it) }
     }
 
+    /**
+     * Observe the changes in one article from local data sources.
+     *
+     * @return changes in one article.
+     */
     override fun observeArticle(articleId: Int): LiveData<Result<Article>> {
-        return dao.observeArticleById(articleId).map {  Result.Success(it) }
+        return dao.observeArticleById(articleId).map { Result.Success(it) }
     }
 
+    /**
+     * Observe the changes in the number of comments from local data sources.
+     *
+     * @return changes in the number of comments.
+     */
     override fun observeArticleNumberOfComments(articleId: Int?): LiveData<Result<Comments>> {
         return dao.observeArticleNumberOfComments(articleId).map { Result.Success(it) }
     }
 
+    /**
+     * Observe the changes in the number of likes from local data sources.
+     *
+     * @return changes in the number of likes.
+     */
     override fun observeArticleNumberOfLikes(articleId: Int?): LiveData<Result<Likes>> {
         return dao.observeArticleNumberOfLikes(articleId).map { Result.Success(it) }
     }
 
+    /**
+     * Insert the articles into local data sources.
+     *
+     * @return insertion result.
+     */
     override suspend fun insertArticles(articles: List<Article>): Result<List<Long>> {
         return Result.Success(dao.insertArticles(articles))
     }
 
+    /**
+     * Clear the existing list of articles and insert new articles.
+     */
     override suspend fun clearAndCacheArticles(articles: List<Article>) {
         dao.clearAndCacheArticles(articles)
     }
 
+    /**
+     * Clear the existing number of likes and insert new number of likes.
+     */
     override suspend fun clearAndCacheLikes(likes: Likes) {
         dao.clearAndCacheLikes(likes)
     }
 
+    /**
+     * Clear the existing number of comments and insert new number of comments.
+     */
     override suspend fun clearAndCacheComments(comments: Comments) {
         dao.clearAndCacheComments(comments)
     }

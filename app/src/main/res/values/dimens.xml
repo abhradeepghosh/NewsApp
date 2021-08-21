@@ -8,4 +8,7 @@
     <dimen name="margin_extra_large">24dp</dimen>
 
     <dimen name="headline_height">240dp</dimen>
+    <dimen name="_0dp">0dp</dimen>
+    <dimen name="_42dp">42dp</dimen>
+    <dimen name="_64dp">64dp</dimen>
 </resources>

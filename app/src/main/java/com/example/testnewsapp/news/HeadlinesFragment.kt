@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.example.testnewsapp.NewsApplication
@@ -20,7 +19,8 @@ import javax.inject.Inject
 /**
  * @author Abhradeep Ghosh
  */
-class HeadlinesFragment : Fragment(){
+
+class HeadlinesFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: HeadlinesViewModel
@@ -35,7 +35,11 @@ class HeadlinesFragment : Fragment(){
         (requireActivity().application as NewsApplication).appComponent.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         viewDataBinding = HeadlinesFragmentBinding.inflate(inflater, container, false).apply {
             viewmodel = viewModel
         }
@@ -52,15 +56,21 @@ class HeadlinesFragment : Fragment(){
         setupListAdapter()
         setupRefreshLayout(viewDataBinding.refreshLayout, viewDataBinding.recyclerViewHeadlines)
         setupNavigation()
-        viewModel.items.observe(viewLifecycleOwner, Observer {
+        viewModel.items.observe(viewLifecycleOwner, {
             listAdapter.submitList(it)
         })
     }
 
+    /**
+     * Setup snackbar and show message in snackbar
+     */
     private fun setupSnackbar() {
         view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 
+    /**
+     * Setup navigation to navigate from news list to news details screen
+     */
     private fun setupNavigation() {
         viewModel.openArticleEvent.observe(viewLifecycleOwner, EventObserver {
             openNewsDetails(it)
@@ -68,11 +78,18 @@ class HeadlinesFragment : Fragment(){
     }
 
 
+    /**
+     * Passing the action to navController to navigate from news list to news details screen
+     */
     private fun openNewsDetails(articleId: Int) {
-        val action = HeadlinesFragmentDirections.actionHeadlinesFragmentToNewsDetailFragment(articleId)
+        val action =
+            HeadlinesFragmentDirections.actionHeadlinesFragmentToNewsDetailFragment(articleId)
         findNavController().navigate(action)
     }
 
+    /**
+     * Adapter setup for population of news data.
+     */
     private fun setupListAdapter() {
         val viewModel = viewDataBinding.viewmodel
         if (viewModel != null) {
