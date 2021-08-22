@@ -3,6 +3,19 @@
 
 An application to show news headlines and details which uses [NewsAPI](https://newsapi.org/) to fetch the top headlines.
 
+## Goals
+---------------
+
+-   [x] To display a list with the latest US top headlines news. Each news item in the list should have the description of the article, the author, and the image associated to it. If the news doesn't have an image, present an image placeholder of your choice.
+-   [x] If the user clicks on a news item it will navigate to a new screen displaying the full news article selected, and some info regarding it.
+-   [x] The news details should also have the additional info of number of likes and the number of comments.
+-   [x] To add features like offline reading.
+-   [x] To add tests for UI and code.
+-   [x] To use latest android technologies and proper design/architecture.
+-   [x] To add animations.
+-   [x] To add a readme file.
+-   [ ] To provide external documentation.
+
 ## Architecture
 ---------------
 
