@@ -24,7 +24,7 @@ You'll need to provide API key to fetch the news from the News Service (API). Cu
 News App uses libraries and tools used to build Modern Android application, mainly part of Android Jetpack 🚀
 
 - [Kotlin](https://kotlinlang.org/) first
-- [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) and [Flow](https://kotlinlang.org/docs/reference/coroutines/flow.html) first
+- [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
 - [Architecture components](https://developer.android.com/topic/libraries/architecture/)
 - [Dagger 2](https://developer.android.com/training/dependency-injection) for dependency injection 🗡
 - [Retrofit](https://square.github.io/retrofit/)
