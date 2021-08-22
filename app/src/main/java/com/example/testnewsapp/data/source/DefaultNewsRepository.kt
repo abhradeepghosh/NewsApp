@@ -65,10 +65,19 @@ class DefaultNewsRepository @Inject constructor(
             try {
                 updateArticlesFromRemoteDataSource()
             } catch (ex: Exception) {
-                return Result.Error(ex.localizedMessage)
+                return Result.Error(ex.localizedMessage!!)
             }
         }
         return localDataSource.getArticles()
+    }
+
+    /**
+     * Fetch the article from local data source.
+     *
+     * @return one article
+     */
+    override suspend fun getArticle(articleId: Int): Result<Article> {
+        return localDataSource.getArticle(articleId)
     }
 
     /**
@@ -107,7 +116,7 @@ class DefaultNewsRepository @Inject constructor(
         withContext(ioDispatcher) {
             if (taskResult is Result.Success) {
                 val numberOfComments = remoteDataSource.getNumberOfComments(
-                    taskResult.data.url.substring(8).replace("/", "-")
+                    taskResult.data.url.substring(getStartingIndexForUrl(taskResult.data.url)).replace("/", "-")
                 )
                 when {
                     numberOfComments.body() != null -> {
@@ -133,7 +142,7 @@ class DefaultNewsRepository @Inject constructor(
         withContext(ioDispatcher) {
             if (taskResult is Result.Success) {
                 val numberOfLikes = remoteDataSource.getNumberOfLikes(
-                    taskResult.data.url.substring(8).replace("/", "-")
+                    taskResult.data.url.substring(getStartingIndexForUrl(taskResult.data.url)).replace("/", "-")
                 )
                 when {
                     numberOfLikes.body() != null -> {
@@ -153,12 +162,12 @@ class DefaultNewsRepository @Inject constructor(
         }
 
     /**
-     * Fetch the article from local data source.
+     * Get the starting index with which the url would be constructed to fetch number of comments/likes.
      *
-     * @return one article
+     * @return starting index of the url
      */
-    override suspend fun getArticle(articleId: Int): Result<Article> {
-        return localDataSource.getArticle(articleId)
+    private fun getStartingIndexForUrl(source : String) : Int{
+        return source.indexOf("/", source.indexOf("/") + 2)
     }
 
     /**

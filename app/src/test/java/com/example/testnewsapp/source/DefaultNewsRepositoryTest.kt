@@ -5,10 +5,7 @@ import com.nhaarman.mockitokotlin2.*
 import com.example.testnewsapp.data.Article
 import com.example.testnewsapp.data.Result
 import com.example.testnewsapp.data.source.local.NewsDao
-import com.example.testnewsapp.data.source.remote.HeadlineResponse
-import com.example.testnewsapp.data.source.remote.NewsApi
-import com.example.testnewsapp.data.source.remote.NewsArticle
-import com.example.testnewsapp.data.source.remote.Source
+import com.example.testnewsapp.data.source.remote.*
 import com.example.testnewsapp.source.local.FakeNewsLocalDataSource
 import com.example.testnewsapp.source.remote.FakeNewsRemoteDataSource
 import com.example.testnewsapp.util.MockitoTest
@@ -39,6 +36,7 @@ class DefaultNewsRepositoryTest: MockitoTest() {
     )
 
     private val headlineResponse = HeadlineResponse(articles = remoteArticles)
+
     private val article1 = Article(id=1, source = "CNN1", title = "Local1")
     private val article2 = Article(id=2, source = "CNN2", title = "Local2")
 
@@ -67,7 +65,7 @@ class DefaultNewsRepositoryTest: MockitoTest() {
     }
 
     @Test
-    fun `verify news article fetched are same with local`() = runBlockingTest{
+    fun `verify news articles fetched are same with local`() = runBlockingTest{
         // GIVEN WHEN
         val articleResult = newsRepositoryTest.getArticles(true) as Result.Success
 
@@ -100,6 +98,5 @@ class DefaultNewsRepositoryTest: MockitoTest() {
         // THEN
         assertThat((newsRepositoryTest.getArticles(false) as Result.Success).data, `is`(localArticle))
     }
-
 
 }

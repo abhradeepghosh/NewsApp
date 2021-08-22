@@ -10,8 +10,8 @@ import com.example.testnewsapp.data.Result
 /**
  * @author Abhradeep Ghosh
  */
-class FakeNewsLocalDataSource(val articles: MutableList<Article>? = mutableListOf()) :
-    NewsLocalDataSource {
+
+class FakeNewsLocalDataSource(private val articles: MutableList<Article>? = mutableListOf()) : NewsLocalDataSource {
 
     override suspend fun getArticles(): Result<List<Article>> {
         articles?.let { return Result.Success(ArrayList(it)) }
@@ -24,14 +24,6 @@ class FakeNewsLocalDataSource(val articles: MutableList<Article>? = mutableListO
             article?.let { return Result.Success<Article>(article) }
         }
         return Result.Error("Pupil not found")
-    }
-
-    override suspend fun getArticleNumberOfComments(): LiveData<Result<Comments>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getArticleNumberOfLikes(): LiveData<Result<List<Likes>>> {
-        TODO("Not yet implemented")
     }
 
     override fun observeArticles(): LiveData<Result<List<Article>>> {
@@ -50,19 +42,11 @@ class FakeNewsLocalDataSource(val articles: MutableList<Article>? = mutableListO
         TODO("Not yet implemented")
     }
 
-    override suspend fun insertArticles(articles: List<Article>): Result<List<Long>> {
-        this.articles?.let {
-            it.addAll(articles)
-        }
-        return Result.Success(articles.map { article -> article.id }.toList() as List<Long>)
-    }
-
     override suspend fun clearAndCacheArticles(articles: List<Article>) {
         this.articles?.let{
             it.clear()
             it.addAll(articles)
         }
-
     }
 
     override suspend fun clearAndCacheLikes(likes: Likes) {

@@ -32,27 +32,9 @@ class DefaultNewsLocalDataSource @Inject constructor(private val dao: NewsDao) :
     override suspend fun getArticle(articleId: Int): Result<Article> {
         val article = dao.getArticleById(articleId)
         article?.let {
-            return Result.Success(article)
+            return Result.Success(it)
         }
         return Result.Error("Article not found!")
-    }
-
-    /**
-     * Fetch the number of comments from the local data source.
-     *
-     * @return number of comments.
-     */
-    override suspend fun getArticleNumberOfComments(): LiveData<Result<Comments>> {
-        return dao.getArticleNumberOfComments().map { Result.Success(it) }
-    }
-
-    /**
-     * Fetch the number of likes from the local data source.
-     *
-     * @return number of likes.
-     */
-    override suspend fun getArticleNumberOfLikes(): LiveData<Result<List<Likes>>> {
-        return dao.getArticleNumberOfLikes().map { Result.Success(it) }
     }
 
     /**
@@ -89,15 +71,6 @@ class DefaultNewsLocalDataSource @Inject constructor(private val dao: NewsDao) :
      */
     override fun observeArticleNumberOfLikes(articleId: Int?): LiveData<Result<Likes>> {
         return dao.observeArticleNumberOfLikes(articleId).map { Result.Success(it) }
-    }
-
-    /**
-     * Insert the articles into local data sources.
-     *
-     * @return insertion result.
-     */
-    override suspend fun insertArticles(articles: List<Article>): Result<List<Long>> {
-        return Result.Success(dao.insertArticles(articles))
     }
 
     /**

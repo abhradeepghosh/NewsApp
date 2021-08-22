@@ -35,23 +35,6 @@ interface NewsDao {
     suspend fun getArticleById(articleId: Int): Article?
 
     /**
-     * Select comments from the article table.
-     *
-     * @return number of comments.
-     */
-    @Query("SELECT * FROM Comments")
-    fun getArticleNumberOfComments(): LiveData<Comments>
-
-    /**
-     * Select likes from the article table.
-     *
-     * @return number of likes.
-     */
-    @Query("SELECT * FROM Likes")
-    fun getArticleNumberOfLikes(): LiveData<List<Likes>>
-
-
-    /**
      * Observes a single article.
      *
      * @param articleId the article id.

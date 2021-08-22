@@ -10,7 +10,8 @@ import retrofit2.Response.success
 /**
  * @author Abhradeep Ghosh
  */
-class FakeNewsRemoteDataSource(val headlineResponse : HeadlineResponse?) : NewsRemoteDataSource {
+class FakeNewsRemoteDataSource(
+    private val headlineResponse : HeadlineResponse?) : NewsRemoteDataSource {
 
     override suspend fun getTopHeadlines(): Response<HeadlineResponse> {
         headlineResponse?.let {

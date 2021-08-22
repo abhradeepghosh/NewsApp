@@ -7,7 +7,7 @@ package com.example.testnewsapp.util
 /**
  * To pluralize a text based on the count
  */
-fun String.pluralize(count: Int): String? {
+fun String.pluralize(count: Int): String {
     return if (count > 1) {
         this + 's'
     } else {

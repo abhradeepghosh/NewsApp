@@ -26,20 +26,6 @@ interface NewsLocalDataSource {
     suspend fun getArticle(articleId: Int): Result<Article>
 
     /**
-     * Fetch the number of comments from the local data source.
-     *
-     * @return result with respect to number of comments.
-     */
-    suspend fun getArticleNumberOfComments(): LiveData<Result<Comments>>
-
-    /**
-     * Fetch the number of likes from the local data source.
-     *
-     * @return result with respect to number of likes.
-     */
-    suspend fun getArticleNumberOfLikes(): LiveData<Result<List<Likes>>>
-
-    /**
      * Observe the changes in the list of articles from local data sources.
      *
      * @return result with respect to changes in the list of articles.
@@ -66,13 +52,6 @@ interface NewsLocalDataSource {
      * @return result with respect to changes in the number of likes.
      */
     fun observeArticleNumberOfLikes(articleId: Int?): LiveData<Result<Likes>>
-
-    /**
-     * Insert the articles into local data sources.
-     *
-     * @return insertion result.
-     */
-    suspend fun insertArticles(articles: List<Article>): Result<List<Long>>
 
     /**
      * Clear the existing list of articles and insert new articles.
