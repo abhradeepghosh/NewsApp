@@ -39,6 +39,6 @@ News App uses libraries and tools used to build Modern Android application, main
 Screen Design
 -------------
 
-<img src="https://user-images.githubusercontent.com/1692038/130364498-bbddb36e-eba3-4646-976f-67e3f29773ff.jpeg" width="250">            <img src="https://user-images.githubusercontent.com/1692038/130364506-a28ec2f4-1fe4-406d-95b5-f98f1723a690.jpeg" width="250">
+<img src="https://user-images.githubusercontent.com/1692038/130364498-bbddb36e-eba3-4646-976f-67e3f29773ff.jpeg" width="30%> <img src="https://user-images.githubusercontent.com/1692038/130364506-a28ec2f4-1fe4-406d-95b5-f98f1723a690.jpeg" width=30%>
 
 
