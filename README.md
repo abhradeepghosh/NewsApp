@@ -23,6 +23,10 @@ The app uses MVVM [Model-View-ViewModel] architecture to have a unidirectional f
 
 ![App_Architecture](https://user-images.githubusercontent.com/1692038/130364144-d5781f65-c655-4aa1-8fd5-eab04c8e8097.png)
 
+## Component Flow
+-----------------
+<img src="https://user-images.githubusercontent.com/1692038/130438777-59a45d51-39bf-49a6-a783-3662b36b144c.png" width=75%> 
+
 ## API key 🔑
 ----------
 
