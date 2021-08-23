@@ -14,7 +14,7 @@ An application to show news headlines and details which uses [NewsAPI](https://n
 -   [x] To use latest android technologies and proper design/architecture.
 -   [x] To add animations.
 -   [x] To add a readme file.
--   [ ] To provide external documentation.
+-   [x] To provide external documentation ( GITHUB Wiki added - In progress)
 
 ## Architecture
 ---------------
