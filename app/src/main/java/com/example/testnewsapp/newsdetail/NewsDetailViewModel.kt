@@ -182,7 +182,9 @@ class NewsDetailViewModel @Inject constructor(private val repository: NewsReposi
         _snackbarText.value = Event(message)
     }
 
-    // todo redundant : companion function not working with databinding in xml : need to find out solution
+    /**
+     * Format Date
+     */
     fun dateFormat(dateTime: String?): String {
         return Format.dateFormatFromDateTime(dateTime)
     }

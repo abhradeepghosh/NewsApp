@@ -109,7 +109,9 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
         _forceUpdate.value = forceUpdate
     }
 
-    // todo redundant : companion function not working with databinding in xml : need to find out solution
+    /**
+     * Format Date
+     */
     fun dateFormat(dateTime: String?): String {
         return Format.dateFormatFromDateTime(dateTime)
     }
