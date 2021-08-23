@@ -1,7 +1,6 @@
 package com.example.testnewsapp.source
 
 import com.example.testnewsapp.data.source.DefaultNewsRepository
-import com.nhaarman.mockitokotlin2.*
 import com.example.testnewsapp.data.Article
 import com.example.testnewsapp.data.Result
 import com.example.testnewsapp.data.source.local.NewsDao
@@ -11,7 +10,6 @@ import com.example.testnewsapp.source.remote.FakeNewsRemoteDataSource
 import com.example.testnewsapp.util.MockitoTest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.Before
@@ -19,6 +17,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.doReturnConsecutively
+import org.mockito.kotlin.whenever
 import retrofit2.Response
 
 /**
@@ -65,7 +66,7 @@ class DefaultNewsRepositoryTest: MockitoTest() {
     }
 
     @Test
-    fun `verify news articles fetched are same with local`() = runBlockingTest{
+    fun `verify news articles fetched are same with local`() = runBlocking{
         // GIVEN WHEN
         val articleResult = newsRepositoryTest.getArticles(true) as Result.Success
 

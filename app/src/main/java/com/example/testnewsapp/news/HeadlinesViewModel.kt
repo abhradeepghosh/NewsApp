@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class HeadlinesViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
 
-    private val _forceUpdate = MutableLiveData<Boolean>(false)
+    private val _forceUpdate = MutableLiveData(false)
 
     private val isDataLoadingError = MutableLiveData<Boolean>()
 
@@ -103,10 +103,10 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
     }
 
     /**
-     * @param forceUpdate   Pass in true to refresh the data
+     * @param update Pass in true to refresh the data
      */
-    fun loadHeadlines(forceUpdate: Boolean) {
-        _forceUpdate.value = forceUpdate
+    private fun loadHeadlines(update: Boolean) {
+        _forceUpdate.value = update
     }
 
     /**

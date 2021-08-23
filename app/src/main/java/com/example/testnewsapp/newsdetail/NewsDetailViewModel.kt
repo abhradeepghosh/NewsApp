@@ -27,7 +27,7 @@ class NewsDetailViewModel @Inject constructor(private val repository: NewsReposi
      *
      * @return LiveData of one article
      */
-    private val _article = Transformations.switchMap(_articleId) {
+    private val _article = _articleId.switchMap {
         repository.observeArticle(it).map { article ->
             _isLikesVisible.value = false
             _isCommentsVisible.value = false
@@ -84,14 +84,14 @@ class NewsDetailViewModel @Inject constructor(private val repository: NewsReposi
     /**
      * To pluralize the comment text based on number of comments
      */
-    fun getNumberOfComments(numberOfComments: Int): String? {
+    fun getNumberOfComments(numberOfComments: Int): String {
         return "comment".pluralize(numberOfComments)
     }
 
     /**
      * To pluralize the like text based on number of likes
      */
-    fun getNumberOfLikes(numberOfLikes: Int): String? {
+    fun getNumberOfLikes(numberOfLikes: Int): String {
         return "like".pluralize(numberOfLikes)
     }
 
@@ -144,7 +144,7 @@ class NewsDetailViewModel @Inject constructor(private val repository: NewsReposi
                 }
             }
         } else {
-            showSnackbarMessage(R.string.loading_article_error)
+            showSnackbarMessage(R.string.loading_likes_error)
         }
 
         return resultLikes
@@ -169,7 +169,7 @@ class NewsDetailViewModel @Inject constructor(private val repository: NewsReposi
                 }
             }
         } else {
-            showSnackbarMessage(R.string.loading_headlines_error)
+            showSnackbarMessage(R.string.loading_comments_error)
         }
 
         return resultComments

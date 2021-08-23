@@ -2,6 +2,8 @@
     <string name="app_name">News App</string>
     <string name="loading_headlines_error">Error while loading headlines</string>
     <string name="loading_article_error">Error while loading newsArticle</string>
+    <string name="loading_comments_error">Error while loading number of comments</string>
+    <string name="loading_likes_error">Error while loading number of likes</string>
     <string name="headlines">Headlines</string>
     <string name="space">" "</string>
     <string name="article_image">Article Image</string>
