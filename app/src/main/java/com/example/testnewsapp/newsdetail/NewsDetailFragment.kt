@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.example.testnewsapp.NewsApplication
-import com.example.testnewsapp.R
 import com.example.testnewsapp.databinding.NewsDetailsFragmentBinding
 import com.example.testnewsapp.util.setupSnackbar
 import javax.inject.Inject
