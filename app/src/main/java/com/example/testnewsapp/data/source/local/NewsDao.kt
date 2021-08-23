@@ -108,27 +108,29 @@ interface NewsDao {
     suspend fun deleteComments()
 
     /**
-     * Delete all articles and insert new articles.
+     * Delete all articles, comments, likes and insert new articles.
      */
     @Transaction
     suspend fun clearAndCacheArticles(articles: List<Article>) {
         deleteArticles()
+        deleteComments()
+        deleteLikes()
         insertArticles(articles)
     }
 
     /**
-     * Delete all likes and insert new likes.
+     * Insert new likes.
      */
     @Transaction
-    suspend fun clearAndCacheLikes(likes: Likes) {
+    suspend fun insertNumberOfLikes(likes: Likes) {
         insertLikes(likes)
     }
 
     /**
-     * Delete all comments and insert new comments.
+     * Insert new comments.
      */
     @Transaction
-    suspend fun clearAndCacheComments(comments: Comments) {
+    suspend fun insertNumberOfComments(comments: Comments) {
         insertComments(comments)
     }
 

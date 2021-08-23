@@ -125,7 +125,7 @@ class DefaultNewsRepository @Inject constructor(
                                 commentsNumber.comments,
                                 taskResult.data.id
                             )
-                            localDataSource.clearAndCacheComments(comments)
+                            localDataSource.insertComments(comments)
                         }
                     }
                     else -> {
@@ -151,7 +151,7 @@ class DefaultNewsRepository @Inject constructor(
                                 likesNumber.likes,
                                 taskResult.data.id
                             )
-                            localDataSource.clearAndCacheLikes(likes)
+                            localDataSource.insertLikes(likes)
                         }
                     }
                     else -> {

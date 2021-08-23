@@ -61,11 +61,11 @@ interface NewsLocalDataSource {
     /**
      * Clear the existing number of likes and insert new number of likes.
      */
-    suspend fun clearAndCacheLikes(likes: Likes)
+    suspend fun insertLikes(likes: Likes)
 
     /**
      * Clear the existing number of comments and insert new number of comments.
      */
-    suspend fun clearAndCacheComments(comments: Comments)
+    suspend fun insertComments(comments: Comments)
 
 }

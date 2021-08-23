@@ -83,14 +83,14 @@ class DefaultNewsLocalDataSource @Inject constructor(private val dao: NewsDao) :
     /**
      * Clear the existing number of likes and insert new number of likes.
      */
-    override suspend fun clearAndCacheLikes(likes: Likes) {
-        dao.clearAndCacheLikes(likes)
+    override suspend fun insertLikes(likes: Likes) {
+        dao.insertNumberOfLikes(likes)
     }
 
     /**
      * Clear the existing number of comments and insert new number of comments.
      */
-    override suspend fun clearAndCacheComments(comments: Comments) {
-        dao.clearAndCacheComments(comments)
+    override suspend fun insertComments(comments: Comments) {
+        dao.insertNumberOfComments(comments)
     }
 }
