@@ -15,7 +15,5 @@ import com.example.testnewsapp.data.Likes
     exportSchema = false
 )
 abstract class NewsDatabase : RoomDatabase() {
-
     abstract fun newsDao(): NewsDao
-
 }

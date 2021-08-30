@@ -21,7 +21,6 @@ class HeadlinesAdapter(private val viewModel: HeadlinesViewModel) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-
         holder.bind(viewModel, item)
     }
 
@@ -30,7 +29,6 @@ class HeadlinesAdapter(private val viewModel: HeadlinesViewModel) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(viewModel: HeadlinesViewModel, item: Article) {
-
             binding.viewmodel = viewModel
             binding.article = item
         }
@@ -40,7 +38,6 @@ class HeadlinesAdapter(private val viewModel: HeadlinesViewModel) :
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = HeadlineItemLayoutBinding.inflate(layoutInflater, parent, false)
-
                 return ViewHolder(binding)
             }
         }

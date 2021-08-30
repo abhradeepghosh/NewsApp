@@ -39,7 +39,6 @@ data class Article @JvmOverloads constructor(
     companion object {
 
         fun convertRemoteArticleToLocalArticle(newsArticle: NewsArticle?): Article {
-
             return Article(
                 author = newsArticle?.author ?: "",
                 title = newsArticle?.title ?: "",

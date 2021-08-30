@@ -49,12 +49,13 @@ class FakeNewsLocalDataSource(private val articles: MutableList<Article>? = muta
         }
     }
 
-    override suspend fun clearAndCacheLikes(likes: Likes) {
+    override suspend fun insertLikes(likes: Likes) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun clearAndCacheComments(comments: Comments) {
+    override suspend fun insertComments(comments: Comments) {
         TODO("Not yet implemented")
     }
+
 
 }

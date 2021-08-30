@@ -16,6 +16,7 @@ import com.example.testnewsapp.util.setupSnackbar
 import timber.log.Timber
 import javax.inject.Inject
 
+
 /**
  * @author Abhradeep Ghosh
  */
@@ -31,7 +32,6 @@ class HeadlinesFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
         (requireActivity().application as NewsApplication).appComponent.inject(this)
     }
 
@@ -98,6 +98,6 @@ class HeadlinesFragment : Fragment() {
         } else {
             Timber.w("ViewModel not initialized when attempting to set up adapter.")
         }
-
     }
+
 }
