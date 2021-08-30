@@ -125,6 +125,7 @@ class DefaultNewsRepository @Inject constructor(
                                 commentsNumber.comments,
                                 taskResult.data.id
                             )
+                            // TO DO -- do an articleID check and then insert
                             localDataSource.insertComments(comments)
                         }
                     }
@@ -151,6 +152,7 @@ class DefaultNewsRepository @Inject constructor(
                                 likesNumber.likes,
                                 taskResult.data.id
                             )
+                            // TO DO -- do an articleID check and then insert
                             localDataSource.insertLikes(likes)
                         }
                     }

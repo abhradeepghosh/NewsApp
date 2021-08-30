@@ -18,7 +18,7 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
 
     private val _forceUpdate = MutableLiveData(false)
 
-    private val isDataLoadingError = MutableLiveData<Boolean>()
+    //private val isDataLoadingError = MutableLiveData<Boolean>()
 
     /**
      * Fetch the list of top headlines ( articles ) from remote data source
@@ -79,7 +79,7 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
         val result = MutableLiveData<List<Article>>()
 
         if (headlineResult is Result.Success) {
-            isDataLoadingError.value = false
+            //isDataLoadingError.value = false
             viewModelScope.launch {
                 headlineResult.data.let { articles ->
                     result.value = articles
@@ -89,7 +89,7 @@ class HeadlinesViewModel @Inject constructor(private val repository: NewsReposit
         } else {
             result.value = emptyList()
             showSnackbarMessage(R.string.loading_headlines_error)
-            isDataLoadingError.value = true
+            //isDataLoadingError.value = true
         }
 
         return result
